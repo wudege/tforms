@@ -1,0 +1,22 @@
+{
+    "name": "wudege/tforms",
+    "description": "TForms is a flexible forms validation library for PHP API project.",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "wudege",
+            "email": "hi@wudege.me"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {},
+    "autoload": {
+        "files": [
+            "src/TForms/functions.php"
+        ],
+        "psr-4": {
+            "TForms\\": "src/TForms"
+        }
+    }
+}
