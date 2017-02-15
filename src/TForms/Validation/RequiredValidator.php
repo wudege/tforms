@@ -9,7 +9,7 @@ namespace TForms\Validation;
 
 
 use TForms\Exception\ValidationException;
-use TForms\Form;
+use TForms\Lang\ZH\TForms;
 
 class RequiredValidator extends Validator
 {
@@ -44,13 +44,19 @@ class RequiredValidator extends Validator
      */
     protected function validateAttribute($object, $attribute)
     {
-        $value = $object->$attribute;
+        $value          = $object->$attribute;
+        $attributeLabel = $object->getAttributeLabels($attribute);
         if ($this->requiredValue !== NULL) {
             if (!$this->strict && $value != $this->requiredValue || $this->strict && $value !== $this->requiredValue) {
-                throw new ValidationException($attribute . '的值必须为：' . $this->requiredValue);
+                throw new ValidationException(TForms::t('TForms', '{attribute} must be {value}.',
+                    array(
+                        '{attribute}' => $attributeLabel,
+                        '{value}'     => $this->requiredValue
+                    )
+                ));
             }
         } elseif ($this->isEmpty($value, $this->trim)) {
-            throw new ValidationException($attribute . '的值不能为空。');
+            throw new ValidationException(TForms::t('TForms', '{attribute} cannot be blank.', array('{attribute}' => $attributeLabel)));
         }
     }
 }

@@ -9,6 +9,7 @@ namespace TForms\Validation;
 
 
 use TForms\Exception\ValidationException;
+use TForms\Lang\ZH\TForms;
 
 class StringValidator extends Validator
 {
@@ -47,11 +48,12 @@ class StringValidator extends Validator
     protected function validateAttribute($object, $attribute)
     {
         $value = $object->$attribute;
-        if ($this->allowEmpty && $this->isEmpty($value))
+        if ($this->allowEmpty && $this->isEmpty($value)) {
             return;
-
+        }
+        $attributeLabel = $object->getAttributeLabels($attribute);
         if (is_array($value)) {
-            throw new ValidationException($attribute . '的值为无效值。');
+            throw new ValidationException(TForms::t('TForms', '{attribute} is invalid.', array('{attribute}' => $attributeLabel)));
         }
 
         if (function_exists('mb_strlen'))
@@ -60,12 +62,22 @@ class StringValidator extends Validator
             $length = strlen($value);
 
         if ($this->min !== NULL && $length < $this->min) {
-            $this->tooShort = $this->tooShort ? $this->tooShort : $attribute . '值太短，最小值为' . $this->min . '个字符。';
-            throw new ValidationException($this->tooShort);
+            $message = $this->tooShort !== NULL ? $this->tooShort : TForms::t('TForms', '{attribute} is too short (minimum is {min} characters).',
+                array(
+                    '{attribute}' => $attributeLabel,
+                    '{min}'       => $this->min,
+                )
+            );
+            throw new ValidationException($message);
         }
         if ($this->max !== NULL && $length > $this->max) {
-            $this->tooLong = $this->tooLong ? $this->tooLong : $attribute . '值太长，最大值为' . $this->max . '个字符。';
-            throw new ValidationException($this->tooLong);
+            $message = $this->tooLong !== NULL ? $this->tooLong : TForms::t('TForms', '{attribute} is too long (maximum is {max} characters).',
+                array(
+                    '{attribute}' => $attributeLabel,
+                    '{max}'       => $this->max,
+                )
+            );
+            throw new ValidationException($message);
         }
 
         return;

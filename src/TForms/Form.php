@@ -20,6 +20,47 @@ abstract class Form extends Component implements \ArrayAccess
     private $validators;
 
     /**
+     *
+     * @author wudege <hi@wudege.me>
+     * @return array
+     */
+    public function attributeLabels()
+    {
+        return array();
+    }
+
+    /**
+     *
+     * @author wudege <hi@wudege.me>
+     *
+     * @param $attribute
+     *
+     * @return string
+     */
+    public function getAttributeLabels($attribute)
+    {
+        $labels = $this->attributeLabels();
+        if (isset($labels[$attribute])) {
+            return $labels[$attribute];
+        } else {
+            return $this->generateAttributeLabel($attribute);
+        }
+    }
+
+    /**
+     *
+     * @author wudege <hi@wudege.me>
+     *
+     * @param $name
+     *
+     * @return string
+     */
+    public function generateAttributeLabel($name)
+    {
+        return ucwords(trim(strtolower(str_replace(array('-', '_', '.'), ' ', preg_replace('/(?<![A-Z])[A-Z]/', ' \0', $name)))));
+    }
+
+    /**
      *  校验方法之前被执行的方法，只有返回true时才继续执行校验流程，否则方法内部应当处理异常及错误信息。
      *  如：异常情况在方法内部抛出 ValidationException
      * @author wudege <hi@wudege.me>
@@ -82,7 +123,8 @@ abstract class Form extends Component implements \ArrayAccess
             if (isset($rule[0], $rule[1])) {
                 $validators[] = Validator::createValidator($rule[1], $this, $rule[0], array_slice($rule, 2));
             } else {
-                throw new RuntimeException(get_class($this) . ' 填写了非法的验证规则。验证器必须填写需要验证的属性列表以及验证器名称。');
+                throw new RuntimeException(t('TForms', '{class} has an invalid validation rule. The rule must specify attributes to be validated and the validator name.',
+                    array('{class}' => get_class($this))));
             }
         }
 

@@ -9,6 +9,7 @@ namespace TForms;
 
 
 use TForms\Exception\RuntimeException;
+use TForms\Lang\ZH\TForms;
 
 class Component
 {
@@ -33,7 +34,10 @@ class Component
 
             return $this->$name;
         }
-        throw new RuntimeException('Property {' . get_class($this) . '}.{' . $name . '} is not defined.');
+        throw new RuntimeException(TForms::t('TForms', 'Property "{class}.{property}" is not defined.', array(
+            '{class}'    => get_class($this),
+            '{property}' => $name,
+        )));
     }
 
     /**
@@ -58,7 +62,10 @@ class Component
 
             return true;
         }
-        throw new RuntimeException('Property {' . get_class($this) . '}.{' . $name . '} is not defined.');
+        throw new RuntimeException(TForms::t('TForms', 'Property "{class}.{property}" is not defined.', array(
+            '{class}'    => get_class($this),
+            '{property}' => $name,
+        )));
     }
 
 }

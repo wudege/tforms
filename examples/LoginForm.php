@@ -19,12 +19,13 @@ class LoginForm extends Form
             array('username', 'length', 'min' => 4, 'max' => 32),
             array('password', 'length', 'min' => 6, 'max' => 18, 'tooShort' => '哥，密码太短了'),
             array('username', 'userVerify'),
+            array(),
         );
     }
 
     public function beforeValidate()
     {
-        return false;
+        return true;
     }
 
     public function userVerify($attribute, $params)
