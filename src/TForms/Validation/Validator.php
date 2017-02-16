@@ -10,6 +10,7 @@ namespace TForms\Validation;
 
 use TForms\Component;
 use TForms\Exception\ValidationException;
+use TForms\Form;
 
 abstract class Validator extends Component
 {
@@ -18,27 +19,23 @@ abstract class Validator extends Component
      */
     public static $builtInValidators = array(
         'required'  => 'TForms\Validation\RequiredValidator',
-        'filter'    => 'FilterValidator',
-        'match'     => 'RegularExpressionValidator',
-        'email'     => 'EmailValidator',
-        'url'       => 'UrlValidator',
-        'unique'    => 'UniqueValidator',
-        'compare'   => 'CompareValidator',
         'length'    => 'TForms\Validation\StringValidator',
-        'in'        => 'RangeValidator',
-        'numerical' => 'NumberValidator',
-        'captcha'   => 'CaptchaValidator',
-        'type'      => 'TypeValidator',
-        'file'      => 'FileValidator',
-        'default'   => 'DefaultValueValidator',
-        'exist'     => 'ExistValidator',
-        'boolean'   => 'BooleanValidator',
-        'safe'      => 'SafeValidator',
-        'unsafe'    => 'UnsafeValidator',
-        'date'      => 'DateValidator',
+        'in'        => 'TForms\Validation\RangeValidator',
+        'email'     => 'TForms\Validation\EmailValidator',
+        'url'       => 'TForms\Validation\UrlValidator',
+        'numerical' => 'TForms\Validation\NumberValidator',
+        'match'     => 'TForms\Validation\RegularExpressionValidator',
     );
 
+    /**
+     * @var array
+     */
     public $attributes = array();
+
+    /**
+     * @var string 用户自定义的错误提示信息
+     */
+    public $message;
 
     /**
      *  对指定属性执行当前校验方法
@@ -87,6 +84,23 @@ abstract class Validator extends Component
         }
 
         return $validator;
+    }
+
+    /**
+     *
+     * @author wudege <hi@wudege.me>
+     *
+     * @param Form   $object
+     * @param string $attribute
+     * @param string $message
+     * @param array  $params
+     *
+     * @throws ValidationException
+     */
+    protected function addError($object, $attribute, $message, $params = array())
+    {
+        $params['{attribute}'] = $object->getAttributeLabel($attribute);
+        throw new ValidationException(strtr($message, $params));
     }
 
     /**

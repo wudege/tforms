@@ -37,7 +37,7 @@ abstract class Form extends Component implements \ArrayAccess
      *
      * @return string
      */
-    public function getAttributeLabels($attribute)
+    public function getAttributeLabel($attribute)
     {
         $labels = $this->attributeLabels();
         if (isset($labels[$attribute])) {

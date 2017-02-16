@@ -9,7 +9,6 @@ namespace TForms\Validation;
 
 
 use TForms\Exception\ValidationException;
-use TForms\Lang\ZH\TForms;
 
 class RequiredValidator extends Validator
 {
@@ -44,19 +43,16 @@ class RequiredValidator extends Validator
      */
     protected function validateAttribute($object, $attribute)
     {
-        $value          = $object->$attribute;
-        $attributeLabel = $object->getAttributeLabels($attribute);
+        $value = $object->$attribute;
         if ($this->requiredValue !== NULL) {
             if (!$this->strict && $value != $this->requiredValue || $this->strict && $value !== $this->requiredValue) {
-                throw new ValidationException(TForms::t('TForms', '{attribute} must be {value}.',
-                    array(
-                        '{attribute}' => $attributeLabel,
-                        '{value}'     => $this->requiredValue
-                    )
-                ));
+                $message = $this->message !== NULL ? $this->message : t('TForms', '{attribute} must be {value}.',
+                    array('{value}' => $this->requiredValue));
+                $this->addError($object, $attribute, $message);
             }
         } elseif ($this->isEmpty($value, $this->trim)) {
-            throw new ValidationException(TForms::t('TForms', '{attribute} cannot be blank.', array('{attribute}' => $attributeLabel)));
+            $message = $this->message !== NULL ? $this->message : t('TForms', '{attribute} cannot be blank.');
+            $this->addError($object, $attribute, $message);
         }
     }
 }

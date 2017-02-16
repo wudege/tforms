@@ -9,7 +9,6 @@ namespace TForms\Validation;
 
 
 use TForms\Exception\ValidationException;
-use TForms\Lang\ZH\TForms;
 
 class StringValidator extends Validator
 {
@@ -51,9 +50,10 @@ class StringValidator extends Validator
         if ($this->allowEmpty && $this->isEmpty($value)) {
             return;
         }
-        $attributeLabel = $object->getAttributeLabels($attribute);
         if (is_array($value)) {
-            throw new ValidationException(TForms::t('TForms', '{attribute} is invalid.', array('{attribute}' => $attributeLabel)));
+            $this->addError($object, $attribute, t('TForms', '{attribute} is invalid.'));
+
+            return;
         }
 
         if (function_exists('mb_strlen'))
@@ -62,22 +62,14 @@ class StringValidator extends Validator
             $length = strlen($value);
 
         if ($this->min !== NULL && $length < $this->min) {
-            $message = $this->tooShort !== NULL ? $this->tooShort : TForms::t('TForms', '{attribute} is too short (minimum is {min} characters).',
-                array(
-                    '{attribute}' => $attributeLabel,
-                    '{min}'       => $this->min,
-                )
-            );
-            throw new ValidationException($message);
+            $message = $this->tooShort !== NULL ? $this->tooShort : t('TForms', '{attribute} is too short (minimum is {min} characters).');
+            $this->addError($object, $attribute, $message, array('{min}' => $this->min));
+
+            return;
         }
         if ($this->max !== NULL && $length > $this->max) {
-            $message = $this->tooLong !== NULL ? $this->tooLong : TForms::t('TForms', '{attribute} is too long (maximum is {max} characters).',
-                array(
-                    '{attribute}' => $attributeLabel,
-                    '{max}'       => $this->max,
-                )
-            );
-            throw new ValidationException($message);
+            $message = $this->tooLong !== NULL ? $this->tooLong : t('TForms', '{attribute} is too long (maximum is {max} characters).');
+            $this->addError($object, $attribute, $message, array('{max}' => $this->max));
         }
 
         return;

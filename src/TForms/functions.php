@@ -5,9 +5,7 @@
  * @author   wudege <hi@wudege.me> https://wudege.me
  */
 
-namespace TForms;
-
-if (!function_exists('TForms\t')) {
+if (!function_exists('t')) {
     /**
      *
      * @author wudege <hi@wudege.me>
@@ -21,6 +19,6 @@ if (!function_exists('TForms\t')) {
      */
     function t($category, $message, $params = array(), $language = 'zh')
     {
-        return Lang\Messages::t($category, $message, $params, $language);
+        return TForms\Lang\Messages::t($category, $message, $params, $language);
     }
 }

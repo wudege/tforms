@@ -11,15 +11,16 @@ class LoginForm extends Form
 
     public $username;
     public $password;
+    public $email;
 
     public function rules()
     {
         return array(
-            array('username, password', 'required'),
+            array('username, password, email', 'required'),
             array('username', 'length', 'min' => 4, 'max' => 32),
             array('password', 'length', 'min' => 6, 'max' => 18, 'tooShort' => '哥，密码太短了'),
-            array('username', 'userVerify'),
-            array(),
+//            array('username', 'userVerify'),
+            array('email', 'email'),
         );
     }
 
@@ -43,6 +44,7 @@ $v = new TForms\Validation\RequiredValidator;
 $form           = new LoginForm();
 $form->username = 'wudege';
 $form->password = 'password';
+$form->email    = 'hi';
 try {
     $form->validate();
 } catch (ValidationException $e) {
