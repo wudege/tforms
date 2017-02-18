@@ -8,6 +8,10 @@
 
 namespace TForms\Exception;
 
+/**
+ * Class ValidationException
+ * @package TForms\Exception
+ */
 class ValidationException extends \Exception
 {
 

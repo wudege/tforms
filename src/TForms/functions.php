@@ -17,7 +17,7 @@ if (!function_exists('t')) {
      *
      * @return mixed
      */
-    function t($category, $message, $params = array(), $language = 'zh')
+    function t($category, $message, $params = [], $language = 'zh')
     {
         return TForms\Lang\Messages::t($category, $message, $params, $language);
     }

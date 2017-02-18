@@ -7,7 +7,10 @@
 
 namespace TForms\Exception;
 
-
+/**
+ * Class RuntimeException
+ * @package TForms\Exception
+ */
 class RuntimeException extends \Exception
 {
 

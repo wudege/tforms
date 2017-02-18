@@ -12,12 +12,16 @@ use TForms\Component;
 use TForms\Exception\ValidationException;
 use TForms\Form;
 
+/**
+ * Class Validator
+ * @package TForms\Validation
+ */
 abstract class Validator extends Component
 {
     /**
      * @var array 内置校验器列表 (name=>class)
      */
-    public static $builtInValidators = array(
+    public static $builtInValidators = [
         'required'  => 'TForms\Validation\RequiredValidator',
         'length'    => 'TForms\Validation\StringValidator',
         'in'        => 'TForms\Validation\RangeValidator',
@@ -25,12 +29,12 @@ abstract class Validator extends Component
         'url'       => 'TForms\Validation\UrlValidator',
         'numerical' => 'TForms\Validation\NumberValidator',
         'match'     => 'TForms\Validation\RegularExpressionValidator',
-    );
+    ];
 
     /**
      * @var array
      */
-    public $attributes = array();
+    public $attributes = [];
 
     /**
      * @var string 用户自定义的错误提示信息
@@ -60,7 +64,7 @@ abstract class Validator extends Component
      *
      * @return Validator
      */
-    public static function createValidator($name, $object, $attributes, $params = array())
+    public static function createValidator($name, $object, $attributes, $params = [])
     {
         if (is_string($attributes)) {
             $attributes = preg_split('/[\s,]+/', $attributes, -1, PREG_SPLIT_NO_EMPTY);
@@ -97,7 +101,7 @@ abstract class Validator extends Component
      *
      * @throws ValidationException
      */
-    protected function addError($object, $attribute, $message, $params = array())
+    protected function addError($object, $attribute, $message, $params = [])
     {
         $params['{attribute}'] = $object->getAttributeLabel($attribute);
         throw new ValidationException(strtr($message, $params));
@@ -131,6 +135,11 @@ abstract class Validator extends Component
      */
     protected function isEmpty($value, $trim = false)
     {
-        return $value === NULL || $value === array() || $value === '' || $trim && is_scalar($value) && trim($value) === '';
+        return $value === null
+            || $value === []
+            || $value === ''
+            || $trim
+            && is_scalar($value)
+            && trim($value) === '';
     }
 }

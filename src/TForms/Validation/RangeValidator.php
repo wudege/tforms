@@ -7,9 +7,12 @@
 
 namespace TForms\Validation;
 
-
 use TForms\Exception\ValidationException;
 
+/**
+ * Class RangeValidator
+ * @package TForms\Validation
+ */
 class RangeValidator extends Validator
 {
 
@@ -26,13 +29,13 @@ class RangeValidator extends Validator
      */
     public $allowEmpty = true;
     /**
-     * @var boolean 将该校验器逻辑置反，若标记为true，则该校验器将校验属性值不在range数组内
+     * @var boolean 置反
      */
     public $not = false;
 
 
     /**
-     *  对指定属性执行当前校验方法
+     *  对指定属性执行当前校验方
      * @author wudege <hi@wudege.me>
      *
      * @param \TForms\Form $object
@@ -61,10 +64,10 @@ class RangeValidator extends Validator
             }
         }
         if (!$this->not && !$result) {
-            $message = $this->message !== NULL ? $this->message : t('TForms', '{attribute} is not in the list.');
+            $message = $this->message !== null ? $this->message : t('TForms', '{attribute} is not in the list.');
             $this->addError($object, $attribute, $message);
         } elseif ($this->not && $result) {
-            $message = $this->message !== NULL ? $this->message : t('TForms', '{attribute} is in the list.');
+            $message = $this->message !== null ? $this->message : t('TForms', '{attribute} is in the list.');
             $this->addError($object, $attribute, $message);
         }
     }

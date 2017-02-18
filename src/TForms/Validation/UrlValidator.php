@@ -7,7 +7,10 @@
 
 namespace TForms\Validation;
 
-
+/**
+ * Class UrlValidator
+ * @package TForms\Validation
+ */
 class UrlValidator extends FilterVarValidator
 {
     /**

@@ -7,7 +7,10 @@
 
 namespace TForms\Validation;
 
-
+/**
+ * Class EmailValidator
+ * @package TForms\Validation
+ */
 class EmailValidator extends FilterVarValidator
 {
     /**

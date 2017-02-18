@@ -7,11 +7,15 @@
 
 namespace TForms;
 
-
 use TForms\Exception\RuntimeException;
 use TForms\Exception\ValidationException;
 use TForms\Validation\Validator;
 
+/**
+ * Class Form
+ * @property array $attributes
+ * @package TForms
+ */
 abstract class Form extends Component implements \ArrayAccess
 {
     /**
@@ -24,9 +28,16 @@ abstract class Form extends Component implements \ArrayAccess
      * @author wudege <hi@wudege.me>
      * @return array
      */
+    abstract public function attributeNames();
+
+    /**
+     *
+     * @author wudege <hi@wudege.me>
+     * @return array
+     */
     public function attributeLabels()
     {
-        return array();
+        return [];
     }
 
     /**
@@ -57,7 +68,53 @@ abstract class Form extends Component implements \ArrayAccess
      */
     public function generateAttributeLabel($name)
     {
-        return ucwords(trim(strtolower(str_replace(array('-', '_', '.'), ' ', preg_replace('/(?<![A-Z])[A-Z]/', ' \0', $name)))));
+        return ucwords(
+            trim(strtolower(str_replace(['-', '_', '.'], ' ', preg_replace('/(?<![A-Z])[A-Z]/', ' \0', $name))))
+        );
+    }
+
+    /**
+     *
+     * @author wudege <hi@wudege.me>
+     *
+     * @param string|null $names
+     *
+     * @return array
+     */
+    public function getAttributes($names = null)
+    {
+        $ret    = [];
+        $values = [];
+        foreach ($this->attributeNames() as $name) {
+            $values[$name] = $this->$name;
+        }
+        if (!is_array($names)) {
+            $ret = $values;
+        } else {
+            foreach ($names as $name) {
+                $ret[$name] = isset($values[$name]) ? $values[$name] : null;
+            }
+        }
+
+        return $ret;
+    }
+
+    /**
+     *
+     * @author wudege <hi@wudege.me>
+     *
+     * @param array $values
+     */
+    public function setAttributes(array $values)
+    {
+        $attributes = array_flip($this->attributeNames());
+        foreach ($values as $name => $value) {
+            if (isset($attributes[$name])) {
+                $this->$name = $value;
+            }
+        }
+
+        return;
     }
 
     /**
@@ -107,7 +164,7 @@ abstract class Form extends Component implements \ArrayAccess
      */
     public function rules()
     {
-        return array();
+        return [];
     }
 
     /**
@@ -118,13 +175,19 @@ abstract class Form extends Component implements \ArrayAccess
      */
     public function createValidators()
     {
-        $validators = array();
+        $validators = [];
         foreach ($this->rules() as $rule) {
             if (isset($rule[0], $rule[1])) {
                 $validators[] = Validator::createValidator($rule[1], $this, $rule[0], array_slice($rule, 2));
             } else {
-                throw new RuntimeException(t('TForms', '{class} has an invalid validation rule. The rule must specify attributes to be validated and the validator name.',
-                    array('{class}' => get_class($this))));
+                throw new RuntimeException(
+                    t(
+                        'TForms',
+                        '{class} has an invalid validation rule. The rule must specify attributes to be validated and 
+                        the validator name.',
+                        ['{class}' => get_class($this)]
+                    )
+                );
             }
         }
 
@@ -139,14 +202,14 @@ abstract class Form extends Component implements \ArrayAccess
      *
      * @return array
      */
-    public function getValidators($attribute = NULL)
+    public function getValidators($attribute = null)
     {
-        if ($this->validators === NULL) {
+        if ($this->validators === null) {
             $this->validators = $this->createValidators();
         }
-        $validators = array();
+        $validators = [];
         foreach ($this->validators as $validator) {
-            if ($attribute === NULL || in_array($attribute, $validator->attributes, true)) {
+            if ($attribute === null || in_array($attribute, $validator->attributes, true)) {
                 $validators[] = $validator;
             }
         }

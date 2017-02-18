@@ -7,9 +7,12 @@
 
 namespace TForms\Validation;
 
-
 use TForms\Exception\ValidationException;
 
+/**
+ * Class StringValidator
+ * @package TForms\Validation
+ */
 class StringValidator extends Validator
 {
 
@@ -56,20 +59,23 @@ class StringValidator extends Validator
             return;
         }
 
-        if (function_exists('mb_strlen'))
+        if (function_exists('mb_strlen')) {
             $length = mb_strlen($value, 'UTF-8');
-        else
+        } else {
             $length = strlen($value);
+        }
 
-        if ($this->min !== NULL && $length < $this->min) {
-            $message = $this->tooShort !== NULL ? $this->tooShort : t('TForms', '{attribute} is too short (minimum is {min} characters).');
-            $this->addError($object, $attribute, $message, array('{min}' => $this->min));
+        if ($this->min !== null && $length < $this->min) {
+            $message = $this->tooShort !== null ? $this->tooShort :
+                t('TForms', '{attribute} is too short (minimum is {min} characters).');
+            $this->addError($object, $attribute, $message, ['{min}' => $this->min]);
 
             return;
         }
-        if ($this->max !== NULL && $length > $this->max) {
-            $message = $this->tooLong !== NULL ? $this->tooLong : t('TForms', '{attribute} is too long (maximum is {max} characters).');
-            $this->addError($object, $attribute, $message, array('{max}' => $this->max));
+        if ($this->max !== null && $length > $this->max) {
+            $message = $this->tooLong !== null ? $this->tooLong :
+                t('TForms', '{attribute} is too long (maximum is {max} characters).');
+            $this->addError($object, $attribute, $message, ['{max}' => $this->max]);
         }
 
         return;

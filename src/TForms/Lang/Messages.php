@@ -7,10 +7,13 @@
 
 namespace TForms\Lang;
 
-
+/**
+ * Class Messages
+ * @package TForms\Lang
+ */
 abstract class Messages
 {
-    public static $messages = array();
+    public static $messages = [];
 
     /**
      *
@@ -23,7 +26,7 @@ abstract class Messages
      *
      * @return mixed
      */
-    public static function t($category, $message, $params = array(), $language = 'zh')
+    public static function t($category, $message, $params = [], $language = 'zh')
     {
         /** @var Messages $className */
         $className = 'TForms\Lang\\' . strtoupper($language) . '\\' . $category;
@@ -31,7 +34,7 @@ abstract class Messages
             $messages = $className::$messages;
             if (isset($messages[$message])) {
                 $message = $messages[$message];
-                if ($params !== array()) {
+                if ($params !== []) {
                     $message = str_replace(array_keys($params), array_values($params), $message);
                 }
             }

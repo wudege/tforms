@@ -7,9 +7,12 @@
 
 namespace TForms\Validation;
 
-
 use TForms\Exception\ValidationException;
 
+/**
+ * Class RegularExpressionValidator
+ * @package TForms\Validation
+ */
 class RegularExpressionValidator extends Validator
 {
 
@@ -42,14 +45,16 @@ class RegularExpressionValidator extends Validator
         if ($this->allowEmpty && $this->isEmpty($value)) {
             return;
         }
-        if ($this->pattern === NULL) {
-            throw new ValidationException(t('TForms', 'The "pattern" property must be specified with a valid regular expression.'));
+        if ($this->pattern === null) {
+            throw new ValidationException(
+                t('TForms', 'The "pattern" property must be specified with a valid regular expression.')
+            );
         }
         if (is_array($value) ||
             (!$this->not && !preg_match($this->pattern, $value)) ||
             ($this->not && preg_match($this->pattern, $value))
         ) {
-            $message = $this->message !== NULL ? $this->message : t('TForms', '{attribute} is invalid.');
+            $message = $this->message !== null ? $this->message : t('TForms', '{attribute} is invalid.');
             $this->addError($object, $attribute, $message);
         }
     }

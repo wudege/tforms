@@ -7,10 +7,13 @@
 
 namespace TForms;
 
-
 use TForms\Exception\RuntimeException;
 use TForms\Lang\ZH\TForms;
 
+/**
+ * Class Component
+ * @package TForms
+ */
 class Component
 {
 
@@ -27,17 +30,15 @@ class Component
     {
         $getter = 'get' . $name;
         if (method_exists($this, $getter)) {
-
             return $this->$getter();
         }
         if (property_exists(get_called_class(), $name)) {
-
             return $this->$name;
         }
-        throw new RuntimeException(TForms::t('TForms', 'Property "{class}.{property}" is not defined.', array(
+        throw new RuntimeException(TForms::t('TForms', 'Property "{class}.{property}" is not defined.', [
             '{class}'    => get_class($this),
             '{property}' => $name,
-        )));
+        ]));
     }
 
     /**
@@ -54,7 +55,6 @@ class Component
     {
         $setter = 'set' . $name;
         if (method_exists($this, $setter)) {
-
             return $this->$setter($value);
         }
         if (property_exists(get_called_class(), $name)) {
@@ -62,10 +62,9 @@ class Component
 
             return true;
         }
-        throw new RuntimeException(TForms::t('TForms', 'Property "{class}.{property}" is not defined.', array(
+        throw new RuntimeException(TForms::t('TForms', 'Property "{class}.{property}" is not defined.', [
             '{class}'    => get_class($this),
             '{property}' => $name,
-        )));
+        ]));
     }
-
 }

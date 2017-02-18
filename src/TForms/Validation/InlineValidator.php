@@ -7,7 +7,10 @@
 
 namespace TForms\Validation;
 
-
+/**
+ * Class InlineValidator
+ * @package TForms\Validation
+ */
 final class InlineValidator extends Validator
 {
     /**

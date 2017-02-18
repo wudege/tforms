@@ -7,9 +7,12 @@
 
 namespace TForms\Validation;
 
-
 use TForms\Exception\ValidationException;
 
+/**
+ * Class NumberValidator
+ * @package TForms\Validation
+ */
 class NumberValidator extends Validator
 {
     /**
@@ -55,29 +58,31 @@ class NumberValidator extends Validator
             return;
         }
         if (!is_numeric($value)) {
-            $message = $this->message !== NULL ? $this->message : t('TForms', '{attribute} must be a number.');
+            $message = $this->message !== null ? $this->message : t('TForms', '{attribute} must be a number.');
             $this->addError($object, $attribute, $message);
 
             return;
         }
         if ($this->integerOnly) {
             if (false === filter_var($value, FILTER_VALIDATE_INT)) {
-                $message = $this->message !== NULL ? $this->message : t('TForms', '{attribute} must be an integer.');
+                $message = $this->message !== null ? $this->message : t('TForms', '{attribute} must be an integer.');
                 $this->addError($object, $attribute, $message);
             }
         } else {
             if (false === filter_var($value, FILTER_VALIDATE_INT)) {
-                $message = $this->message !== NULL ? $this->message : t('TForms', '{attribute} must be a number.');
+                $message = $this->message !== null ? $this->message : t('TForms', '{attribute} must be a number.');
                 $this->addError($object, $attribute, $message);
             }
         }
-        if ($this->min !== NULL && $value < $this->min) {
-            $message = $this->tooSmall !== NULL ? $this->tooSmall : t('TForms', '{attribute} is too small (minimum is {min}).');
-            $this->addError($object, $attribute, $message, array('{min}' => $this->min));
+        if ($this->min !== null && $value < $this->min) {
+            $message = $this->tooSmall !== null ? $this->tooSmall :
+                t('TForms', '{attribute} is too small (minimum is {min}).');
+            $this->addError($object, $attribute, $message, ['{min}' => $this->min]);
         }
-        if ($this->max !== NULL && $value > $this->max) {
-            $message = $this->tooBig !== NULL ? $this->tooBig : t('TForms', '{attribute} is too big (maximum is {max}).');
-            $this->addError($object, $attribute, $message, array('{max}' => $this->max));
+        if ($this->max !== null && $value > $this->max) {
+            $message = $this->tooBig !== null ? $this->tooBig :
+                t('TForms', '{attribute} is too big (maximum is {max}).');
+            $this->addError($object, $attribute, $message, ['{max}' => $this->max]);
         }
     }
 }

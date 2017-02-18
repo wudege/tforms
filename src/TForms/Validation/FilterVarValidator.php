@@ -7,9 +7,12 @@
 
 namespace TForms\Validation;
 
-
 use TForms\Exception\ValidationException;
 
+/**
+ * Class FilterVarValidator
+ * @package TForms\Validation
+ */
 abstract class FilterVarValidator extends Validator
 {
     /**
@@ -32,7 +35,7 @@ abstract class FilterVarValidator extends Validator
      */
     protected function getOptions()
     {
-        return NULL;
+        return null;
     }
 
     /**
@@ -50,7 +53,7 @@ abstract class FilterVarValidator extends Validator
      */
     public function getMessageParams()
     {
-        return array();
+        return [];
     }
 
 
