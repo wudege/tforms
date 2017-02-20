@@ -2,8 +2,8 @@
 TForms is a flexible forms validation library for PHP API project.
 
 [![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg)](LICENSE)
-[![Latest Stable Version](https://img.shields.io/packagist/v/wudege/sil.svg)](https://packagist.org/packages/wudege/tforms)
-[![Total Downloads](https://img.shields.io/packagist/dt/wudege/sil.svg)](https://packagist.org/packages/wudege/tforms)
+[![Latest Stable Version](https://img.shields.io/packagist/v/wudege/tforms.svg)](https://packagist.org/packages/wudege/tforms)
+[![Total Downloads](https://img.shields.io/packagist/dt/wudege/tforms.svg)](https://packagist.org/packages/wudege/tforms)
 [![Twitter URL](https://img.shields.io/twitter/url/http/shields.io.svg?style=social&style=flat-square)](https://twitter.com/wudege)
 
 ## INSTALL
